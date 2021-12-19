@@ -90,8 +90,8 @@ still doing it ....
 | user       | Schema <user>   | required         | n/a           |
 
 ## ER Diagram:
-  
-![ERD drawio (3)](https://user-images.githubusercontent.com/92248041/146686377-5d3bdcae-3d76-4c84-be3c-9be02dc71666.png)
+ 
+![ERD_backend](https://user-images.githubusercontent.com/92248041/146687970-969ee30f-7984-4786-b2f6-5cdccb806da3.jpg)
 
  ## Links:
 https://trello.com/b/p0lIavji/mprawanbadr
