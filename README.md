@@ -93,10 +93,10 @@
 ![ERD_backend](https://user-images.githubusercontent.com/92248041/146687970-969ee30f-7984-4786-b2f6-5cdccb806da3.jpg)
 
  ## Links:
-https://trello.com/b/p0lIavji/mprawanbadr
+https://trello.com/b/MOLHmrhc/mp-project-rawan-almutairi
 
 ## Client Repo:
-https://github.com/MP-Project-Rawan-Badr/client
+
 
 ## Slides:
 The url to your presentation slides
