@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "| HTTP Method | URL                | Request Body                               | Success status  | Error status  | Description       |\r | ----------- | ------------------ | ----------------------------------------- | --------------- | ------------- | ------------------ |\r | POST        | `/signUp`          | {email, password,role}                    | 201             | 400           | Checks if fields not empty and user not exists, then create user with encrypted password, and store user in session   |\r | POST        | `/login`           | {userName, email, password}               | 201             | 404           | Checks if fields not empty  and user not exists, and if password matches (404), then stores user in session           |\r | POST        | `/logout`          | {empty}                                   | 200             | 400           | logout the user               |\r | GET         | `/getAllUsers`     |                                           | 200             | 400           | Get all users                 |\r | POST        | `/addPost`         | {title, images, description, isDel, date} | 201             | 400           | service provider create posts|\r | PUT         | `/updPost`         | {title, images, description}              | 200             | 400           | service provider edit post                   |\r | DELETE      | `/delPost`         | {empty}                                   | 200             | 400           | service provider delete post               |\r | GET         | `/getAllPosts`     |                                           | 200             | 400           | all get all posts         |\r | GET         | `/getOnePost`      |  {id}                                     | 200             | 400           | all get one post by id    |\r | POST        | `/createRole`      |  {role, permission}                       | 201             | 400           | create role (admin, service provider, users|\r | GET         | `/getRoles`        |                                           | 200             | 400           | admin get all roles    |\r | POST        | `/addComment`      | {Post, user, isDel}                       | 201             | 400           | add Comment   |\r | PUT         | `/updComment`      | {id}                                      | 200             | 400           | update Comment   | \r | DELETE      | `/delComment`      | {id}                                      | 200             | 400           | delete Comment   | \r | GET         | `/getComment`      |                                           | 200             | 400           | Get all comments   | \r | POST        | `/like`            | {post, user}                              | 201             | 400           | Add like   | \r | Post        | `/follow`          | {from, to}                                | 200             | 400           | follow user  |",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MP-PROJECT-RAWAN-ALMUTAIRI/Server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MP-PROJECT-RAWAN-ALMUTAIRI/Server/issues"
+  },
+  "homepage": "https://github.com/MP-PROJECT-RAWAN-ALMUTAIRI/Server#readme"
+}
