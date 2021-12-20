@@ -24,8 +24,7 @@
 
 ## UML Diagram:
 
-still doing it ....
-
+![UMLBackend](https://user-images.githubusercontent.com/92248041/146725753-585b9063-ba19-4904-baae-d992744a281e.jpg)
 
 ## Models
 
