@@ -22,10 +22,13 @@ const post = new mongoose.Schema(
       default:
         "https://thumbs.dreamstime.com/b/female-user-avatar-profile-picture-icon-isolated-vector-illustration-flat-design-people-character-white-background-woman-146472409.jpg",
     },
-//     {
-//         file(String)
-// video(String)
-//     },
+    file: {
+      type: String,
+      require: true,
+    },
+   video: {
+     type:String,
+    },
   },
   {
     timestamps: true,
