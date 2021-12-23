@@ -6,11 +6,6 @@ const post = new mongoose.Schema(
       type: String,
       required: true,
     },
-    deleted: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
@@ -18,16 +13,21 @@ const post = new mongoose.Schema(
     },
     pic: {
       type: String,
-      require: true,
+      // require: true,
       default:
         "https://thumbs.dreamstime.com/b/female-user-avatar-profile-picture-icon-isolated-vector-illustration-flat-design-people-character-white-background-woman-146472409.jpg",
     },
     file: {
       type: String,
-      require: true,
+      required: true,
     },
-   video: {
-     type:String,
+    video: {
+      type: String,
+    },
+    deleted: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
   },
   {

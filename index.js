@@ -13,6 +13,12 @@ app.use(usersRouter);
 const rolesRouter = require("./routers/routes/role"); 
 app.use(rolesRouter);
 
+const postRouter = require("./routers/routes/post"); 
+app.use(postRouter);
+
+const commentsRouter = require("./routers/routes/comment");
+app.use(commentsRouter); 
+
 const PORT = process.env.PORT;
 console.log(PORT);
 app.listen(PORT, ()=>{
