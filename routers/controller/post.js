@@ -104,6 +104,39 @@ const updatePost = (req, res) => {
     });
 };
 
+const newLike = async (req, res) => {
+  const { id } = req.params; // post id
+  console.log(id);
+  try {
+    const like = await likeModel.findOne({
+      post: id,
+      user: req.token.id,
+    });
+    console.log(like);
+    if (like) { //// ({ _id: like._id }) 
+      likeModel.findOneAndDelete({ post: id }).then((result) => {
+        res.status(200).json("unliked successfuly");
+      });
+    } else {
+      const newLike = new likeModel({
+        post: id,
+        user: req.token.id,
+      });
+
+      newLike
+        .save()
+        .then((result) => {
+          res.status(201).json(result);
+        })
+        .catch((err) => {
+          res.status(404).json(err);
+        });
+    }
+  } catch (error) {
+    res.status(404).json(error.message);
+  }
+};
+
 //// BY ADMIN ....
 const deletePostsByAdmin = (req, res) => {
   const { id } = req.params;
@@ -147,6 +180,7 @@ module.exports = {
   getAllPost,
   delPost,
   updatePost,
+  newLike,
   deletePostsByAdmin,
   getAllPostByAdmin,
 };
