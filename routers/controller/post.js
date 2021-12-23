@@ -158,7 +158,7 @@ const deletePostsByAdmin = (req, res) => {
       res.status(400).json(err);
     });
 }; 
-
+//// BY ADMIN ....
 const getAllPostByAdmin = (req, res) => {
   postModel
   .find({}) 
