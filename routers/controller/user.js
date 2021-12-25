@@ -85,17 +85,103 @@ const login = (req, res) => {
 
 const getUsers = (req, res) => {
     usersModel
-      .find({})
-      .then((result) => {
-        if (result.length !== 0) {
-          res.status(200).json(result);
-        } else {
-          res.status(404).json({ message: "there is no users found !" });
-        }
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
+    .find({})
+    // .populate("like")
+    // .populate("followers") 
+    // .populate("following")
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+}
+
+const getUser = (req, res) => {
+  const { id } = req.params;  // id for user.
+
+  usersModel
+      .findOne({ _id : id})
+    // .populate("like")
+    // .populate("followers")
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
+const changeBio = (req, res) => {
+  const { id } = req.params; // user id 
+  const { Bio } = req.body; 
+  usersModel
+  .findOneAndUpdate(
+      { _id : id  }, /// filtres
+      { Bio : Bio },
+      { new : true}
+    )
+    // .populate("like")
+    // .populate("followers")
+    // .populate("following")
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
+const followUser = (req, res) => {
+  try {
+    usersModel.findByIdAndUpdate(
+      req.body.userId,
+      {
+        $push: { following: req.body.otherUserId },
+      },
+      () => {
+        console.log("User has been followed");
+      }
+    );
+    usersModel.findByIdAndUpdate(
+      req.body.otherUserId,
+      {
+        $push: { followers: req.body.userId },
+      },
+      () => {
+        console.log("User has been added to followers");
+      }
+    );
+    res.status(200).json({ message: "User followed successfully" });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
+const unFollowUser = (req, res) => {
+  try {
+    usersModel.findByIdAndUpdate(
+      req.body.userId,
+      {
+        $pull: { following: req.body.otherUserId },
+      },
+      () => {
+        console.log("User has been unfollowed");
+      }
+    );
+    usersModel.findByIdAndUpdate(
+      req.body.otherUserId,
+      {
+        $pull: { followers: req.body.userId },
+      },
+      () => {
+        console.log("User has been removed from followers");
+      }
+    );
+    res.status(200).json({ message: "User unfollowed successfully" });
+  } catch (error) {
+    res.json({ error });
+  }
 };
 
 const deleteUser = (req, res) => {
@@ -121,4 +207,4 @@ const deleteUser = (req, res) => {
       });
 };
 
-module.exports = { signup, login, getUsers, deleteUser };
+module.exports = { signup, login, getUsers, getUser, followUser, unFollowUser, changeBio, deleteUser };
