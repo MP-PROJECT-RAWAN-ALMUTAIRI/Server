@@ -2,7 +2,7 @@ const usersModel = require("./../../db/models/user");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-dotenv.config();
+dotenv.config(); 
 
 const SALT = Number(process.env.SALT);
 const SECRET = process.env.SECRET_KEY;
@@ -39,7 +39,7 @@ const login = (req, res) => {
 
   usersModel
     .findOne({ email: lowerCaseEmail })
-    .populate("role") /// Find 
+    .populate("role") /// Find  
     .then(async (result) => {
       if (result) {
         if (result.deleted === false) {
@@ -86,16 +86,19 @@ const login = (req, res) => {
 const getUsers = (req, res) => {
     usersModel
     .find({})
-    // .populate("like")
-    // .populate("followers") 
-    // .populate("following")
+    //---------------------------------------------------//
+    // يجيب حساب المستخدم مع البروفايل والصور و محتواها 
+    //  .populate("post")  
+    //  .populate("followers") 
+    //  .populate("following")
+    //---------------------------------------------------//
     .then((result) => {
       res.status(200).json(result);
     })
     .catch((err) => {
       res.send(err);
     });
-}
+} 
 
 const getUser = (req, res) => {
   const { id } = req.params;  // id for user.

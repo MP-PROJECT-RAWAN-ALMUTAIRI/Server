@@ -1,6 +1,7 @@
 const postModel = require("../../db/models/post");
 const commentModel = require("../../db/models/comment");
 const likeModel = require("../../db/models/like");
+const rattingModel = require("../../db/models/ratting"); 
 
 const createPost = (req, res) => {
   const { description, pic, file, video } = req.body;
@@ -31,12 +32,13 @@ const getOnePost = (req, res) => {
       if (result) {
         const commnet = await commentModel.find({ post: id, deleted: false });
         const like = await likeModel.find({ post: id, deleted: false });
+        const ratting = await rattingModel.find({ post: id, deleted: false });
         //  console.log(commnet);
         if (commnet.length > 0) {
-          res.status(200).json({ result, commnet, like });
+          res.status(200).json({ result, commnet, like, ratting });
         } else {
           // console.log("commnet commnet commnet commnet......");
-          res.status(200).json({ result, like });
+          res.status(200).json({ result, like, ratting, commnet });
         }
       } else {
         res.status(404).json({ message: `post is deleted ${id}` });
@@ -63,8 +65,8 @@ const getAllPost = (req, res) => {
 };
 
 const delPost = (req, res) => {
-  const { id } = req.params; /// Post id 
- 
+  const { id } = req.params; /// Post id
+
   postModel
     .findOneAndUpdate(
       { _id: id, deleted: false },
@@ -113,7 +115,8 @@ const newLike = async (req, res) => {
       user: req.token.id,
     });
     console.log(like);
-    if (like) { //// ({ _id: like._id }) 
+    if (like) {
+      //// ({ _id: like._id })
       likeModel.findOneAndDelete({ post: id }).then((result) => {
         res.status(200).json("unliked successfuly");
       });
@@ -157,21 +160,30 @@ const deletePostsByAdmin = (req, res) => {
     .catch((err) => {
       res.status(400).json(err);
     });
-}; 
+};
 //// BY ADMIN ....
 const getAllPostByAdmin = (req, res) => {
   postModel
-  .find({}) 
-  .then((result) => {
-    if (result.length !== 0) {
-      res.status(200).json(result);
-    } else {
-      res.status(404).json({ message: "there is no users found !" });
-    }
-  })
-  .catch((err) => {
-    res.status(400).json(err);
-  });
+    .find({})
+    .then(async (result) => {
+      if (result) {
+        const commnet = await commentModel.find({});
+        const like = await likeModel.find({});
+        const ratting = await rattingModel.find({});
+        //  console.log(commnet);
+        if (commnet.length > 0) {
+          res.status(200).json({ result, commnet, like, ratting });
+        } else {
+          // console.log("commnet commnet commnet commnet......");
+          res.status(200).json({ result, like, ratting, commnet });
+        }
+      } else {
+        res.status(404).json({ message: `posts is deleted` });
+      }
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
 };
 
 module.exports = {

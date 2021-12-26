@@ -8,7 +8,7 @@ const authorization = (req, res, next) => {
     //  const result = await roleModel.findById(relatedId);
    console.log(req.token.role);
     if (req.token.role === "Admin") {
-      console.log("rawan authorization  ............................");
+      console.log("rawan authorization  ...................Admin role.........");
       next();
     } else {
       // console.log("token");

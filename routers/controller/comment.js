@@ -36,7 +36,7 @@ const createComments = (req, res) => {
           } else {
             res
               .status(404)
-              .json({ message: `there is no todo with the ID: ${id}` });
+              .json({ message: `there is no comment with the ID: ${id}` });
           }
         })
         .catch((err) => {

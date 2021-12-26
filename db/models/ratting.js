@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 
 const ratting = new mongoose.Schema(
-  {
+  { 
     ratting: {
-      type: Boolean,
-      default: true,
+      type: Number,
+      required : true, 
+      default: 0,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

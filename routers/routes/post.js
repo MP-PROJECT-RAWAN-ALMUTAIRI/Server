@@ -4,7 +4,7 @@ const {
   getOnePost,
   getAllPost,
   delPost,
-  updatePost,
+  updatePost, 
   newLike,
   deletePostsByAdmin,
   getAllPostByAdmin,
@@ -12,7 +12,7 @@ const {
 const authentication = require("./../Middleware/Authentication");
 const authorization = require("./../Middleware/authorization");
 
-const postRouter = express.Router();
+const postRouter = express.Router(); 
 
 postRouter.post("/post", authentication, createPost);
 postRouter.post("/Likeposts/:id", authentication, newLike);

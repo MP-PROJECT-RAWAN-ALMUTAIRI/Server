@@ -16,16 +16,16 @@ const user = new mongoose.Schema(
       type: String,
       required: true,
     },
-    passwordCode: {
-      type: String,
-    },
-    activeCode: {
-      type: String,
-    },
-    active: {
-      type: Boolean,
-      default: false,
-    },
+    // passwordCode: {
+    //   type: String,
+    // },
+    // activeCode: {
+    //   type: String,
+    // },
+    // active: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     role: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Role",
@@ -56,8 +56,17 @@ const user = new mongoose.Schema(
       type: Boolean,
       required: true,
       default: false,
-    },
+    },  
+    // <------------------------------------------------------------------->//
+    // <------------ if the profile is public setit to true else false ------------> // 
+  //   isPublic: {
+  //   type: Boolean,
+  //   required: true,
+  //   default: false,
+  // }, 
+   // <------------------------------------------------------------------->//
   },
+
   {
     timestamps: true,
   }
