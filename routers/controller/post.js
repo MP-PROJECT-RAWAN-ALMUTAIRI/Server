@@ -2,6 +2,7 @@ const postModel = require("../../db/models/post");
 const commentModel = require("../../db/models/comment");
 const likeModel = require("../../db/models/like");
 const rattingModel = require("../../db/models/ratting"); 
+const userModel = require("../../db/models/user"); 
 
 const createPost = (req, res) => {
   const { description, pic, file, video } = req.body;
@@ -27,7 +28,7 @@ const createPost = (req, res) => {
 const getOnePost = (req, res) => {
   const { id } = req.params; /// POST ID ...
   postModel
-    .findOne({ _id: id, user: req.token.id, deleted: false })
+    .findOne({ _id: id, deleted: false })
     .then(async (result) => {
       if (result) {
         const commnet = await commentModel.find({ post: id, deleted: false });

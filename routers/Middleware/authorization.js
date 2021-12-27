@@ -1,13 +1,13 @@
 const roleModel = require("./../../db/models/role");
 
-const authorization = (req, res, next) => {
+const authorization =async (req, res, next) => {
   try {
 
     console.log("rawan authorization  ..................try..........");
-    //  const relatedId = req.token.role;
+     const relatedId = req.token.role;
     //  const result = await roleModel.findById(relatedId);
-   console.log(req.token.role);
-    if (req.token.role === "Admin") {
+  //  console.log(result.role);
+    if (relatedId === "Admin") {
       console.log("rawan authorization  ...................Admin role.........");
       next();
     } else {

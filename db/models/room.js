@@ -4,6 +4,5 @@ const rommSchema = new mongoose.Schema({
   to:{type: mongoose.Schema.Types.ObjectId,ref:"users"},
   messages:[{type: mongoose.Schema.Types.ObjectId,ref:"message"}]
 
-
 });
 module.exports = mongoose.model("Room", rommSchema); 

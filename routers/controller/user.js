@@ -1,8 +1,9 @@
 const usersModel = require("./../../db/models/user");
+const postModel = require("./../../db/models/post");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-dotenv.config(); 
+dotenv.config();
 
 const SALT = Number(process.env.SALT);
 const SECRET = process.env.SECRET_KEY;
@@ -13,15 +14,15 @@ const signup = async (req, res) => {
 
   const lowerCaseEmail = email.toLowerCase();
   const hashedPassword = await bcrypt.hash(password, SALT);
-  // console.log(lowerCaseEmail , hashedPassword); 
+  // console.log(lowerCaseEmail , hashedPassword);
   const newUser = new usersModel({
     email: lowerCaseEmail,
-    userName, 
+    userName,
     password: hashedPassword,
-    avatar, 
+    avatar,
     role,
   });
-  // console.log(newUser); 
+  // console.log(newUser);
   newUser
     .save()
     .then((result) => {
@@ -36,27 +37,31 @@ const login = (req, res) => {
   const { email, password } = req.body;
 
   const lowerCaseEmail = email.toLowerCase();
-
+  //console.log(lowerCaseEmail, password);
   usersModel
     .findOne({ email: lowerCaseEmail })
-    .populate("role") /// Find  
+    .populate("role") /// Find
     .then(async (result) => {
       if (result) {
+        //console.log(result);
         if (result.deleted === false) {
           if (result.email == lowerCaseEmail) {
+            //console.log(result.email);
             const matchedPassword = await bcrypt.compare(
               password,
               result.password
             );
-
-            if (matchedPassword) {
+            //console.log(typeof matchedPassword);
+            if (matchedPassword == true) {
+              //console.log(matchedPassword);
               const payload = {
                 id: result._id,
                 email: result.email,
-                userName: result.userName, 
+                userName: result.userName,
                 role: result.role.role,
                 deleted: result.deleted,
               };
+              console.log(result);
 
               const options = {
                 expiresIn: "60h",
@@ -84,12 +89,12 @@ const login = (req, res) => {
 };
 
 const getUsers = (req, res) => {
-    usersModel
+  usersModel
     .find({})
     //---------------------------------------------------//
-    // يجيب حساب المستخدم مع البروفايل والصور و محتواها 
-    //  .populate("post")  
-    //  .populate("followers") 
+    // يجيب حساب المستخدم مع البروفايل والصور و محتواها
+    //  .populate("post")
+    //  .populate("followers")
     //  .populate("following")
     //---------------------------------------------------//
     .then((result) => {
@@ -98,31 +103,39 @@ const getUsers = (req, res) => {
     .catch((err) => {
       res.send(err);
     });
-} 
+};
 
 const getUser = (req, res) => {
-  const { id } = req.params;  // id for user.
+  const { id } = req.params; // id for user.
 
   usersModel
-      .findOne({ _id : id})
-    // .populate("like")
-    // .populate("followers")
-    .then((result) => {
-      res.status(200).json(result);
+    .findOne({ _id: id })
+    .then(async (result) => {
+      if (result) {
+        const post = await postModel.findOne({ user: id, deleted: false });
+        if (post.length > 0) {
+          res.status(200).json({ result, post });
+        } else {
+          // console.log("commnet commnet commnet commnet......");
+          res.status(200).json({ result, post });
+        }
+      } else {
+        res.status(404).json({ message: `post is deleted ` });
+      }
     })
     .catch((err) => {
-      res.send(err);
+      res.status(400).json(err);
     });
 };
 
 const changeBio = (req, res) => {
-  const { id } = req.params; // user id 
-  const { Bio } = req.body; 
+  const { id } = req.params; // user id
+  const { Bio } = req.body;
   usersModel
-  .findOneAndUpdate(
-      { _id : id  }, /// filtres
-      { Bio : Bio },
-      { new : true}
+    .findOneAndUpdate(
+      { _id: id }, /// filtres
+      { Bio: Bio },
+      { new: true }
     )
     // .populate("like")
     // .populate("followers")
@@ -188,26 +201,34 @@ const unFollowUser = (req, res) => {
 };
 
 const deleteUser = (req, res) => {
- 
-    const { id } = req.params;
-// console.log(id);
-    usersModel
-      .findByIdAndUpdate(id, { deleted: true })
-      .then((result) => {
-        if (result) {
-          console.log("id ...........");
-          res
-            .status(200)
-            .json({ message: " the user hsa been deleted successfully .." });
-        } else {
-          console.log("id ...9999999999........");
-          res.status(404).json({ message: `there is no user with ID: ${id}` });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json(err);
-      });
+  const { id } = req.params;
+  // console.log(id);
+  usersModel
+    .findByIdAndUpdate(id, { deleted: true })
+    .then((result) => {
+      if (result) {
+        console.log("id ...........");
+        res
+          .status(200)
+          .json({ message: " the user hsa been deleted successfully .." });
+      } else {
+        console.log("id ...9999999999........");
+        res.status(404).json({ message: `there is no user with ID: ${id}` });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json(err);
+    });
 };
 
-module.exports = { signup, login, getUsers, getUser, followUser, unFollowUser, changeBio, deleteUser };
+module.exports = {
+  signup,
+  login,
+  getUsers,
+  getUser,
+  followUser,
+  unFollowUser,
+  changeBio,
+  deleteUser,
+};
