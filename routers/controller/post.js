@@ -52,7 +52,7 @@ const getOnePost = (req, res) => {
 
 const getAllPost = (req, res) => {
   postModel
-    .find({ user: req.token.id, deleted: false })
+    .find({})
     .then((result) => {
       if (result.length > 0) {
         res.status(200).json(result);

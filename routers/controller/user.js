@@ -112,7 +112,7 @@ const getUser = (req, res) => {
     .findOne({ _id: id })
     .then(async (result) => {
       if (result) {
-        const post = await postModel.findOne({ user: id, deleted: false });
+        const post = await postModel.find({ user: id, post:id , deleted: false });
         if (post.length > 0) {
           res.status(200).json({ result, post });
         } else {

@@ -4,7 +4,7 @@ const like = new mongoose.Schema(
   {
     like: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
