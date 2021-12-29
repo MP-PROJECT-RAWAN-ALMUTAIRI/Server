@@ -70,7 +70,7 @@ const delPost = (req, res) => {
 
   postModel
     .findOneAndUpdate(
-      { _id: id, deleted: false },
+      { _id: id, deleted: false, user: req.token.id },
       { deleted: true },
       { new: true }
     )

@@ -26,7 +26,7 @@ const createComments = (req, res) => {
 //Done
   const getComments = (req, res) => {
     if (!req.token.deleted) {
-      const { id } = req.params; // comment      id user: req.token.id,
+      const { id } = req.params; // post id      id user: req.token.id,
    
       commentsModel
         .find({ post: id, deleted: false })

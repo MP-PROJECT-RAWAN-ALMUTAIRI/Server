@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-const reply = new mongoose.Schema(
+const moreReply = new mongoose.Schema(
   { 
-    reply: {
+    moreReply: {
       type: String,
       required: true,
     },
@@ -11,9 +11,9 @@ const reply = new mongoose.Schema(
       ref: "user",
       required: true,
     },
-    question: {
+    reply: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "question",
+      ref: "reply",
       required: true,
     },
     deleted: {
@@ -27,4 +27,4 @@ const reply = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("reply", reply);
+module.exports = mongoose.model("moreReply", moreReply);

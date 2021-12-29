@@ -1,19 +1,14 @@
 const mongoose = require("mongoose");
 
-const reply = new mongoose.Schema(
-  { 
-    reply: {
+const question = new mongoose.Schema(
+  {
+    question: {
       type: String,
       required: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
-      required: true,
-    },
-    question: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "question",
       required: true,
     },
     deleted: {
@@ -27,4 +22,4 @@ const reply = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("reply", reply);
+module.exports = mongoose.model("question", question);
