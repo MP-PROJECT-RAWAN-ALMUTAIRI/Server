@@ -90,7 +90,7 @@ const login = (req, res) => {
 
 const getUsers = (req, res) => {
   usersModel
-    .find({})
+    .find({deleted: false})
     //---------------------------------------------------//
     // يجيب حساب المستخدم مع البروفايل والصور و محتواها
     //  .populate("post")

@@ -19,6 +19,7 @@ userRouter.post("/signup", signup);
 userRouter.post("/login", login);
 userRouter.get("/user/:id", getUser);
 userRouter.put("/updateBio/:id", changeBio);
+userRouter.get("/user", authentication, getUsers);
 //---------------------------------------------------//
 
 userRouter.put("/followUser", followUser); /// need to test it in front end ... 

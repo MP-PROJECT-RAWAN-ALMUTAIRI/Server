@@ -8,7 +8,7 @@ const createDiscussion = (req, res) => {
   
     const newdiss = new disscationModel({
         reply,
-        user: req.token.id,
+        user: req.token.id,  
         question : id, 
     });
   
