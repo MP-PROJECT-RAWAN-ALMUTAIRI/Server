@@ -1,6 +1,9 @@
 const express = require("express");
 const {
   signup,
+  verifyAccount,
+  checkEmail,
+  resetPassword,
   login,
   getUsers,
   getUser,
@@ -16,10 +19,13 @@ const userRouter = express.Router();
 
 // DONE ..
 userRouter.post("/signup", signup); 
+userRouter.post("/verify_account", verifyAccount);
+userRouter.post("/check_email", checkEmail);
+userRouter.post("/reset_password", resetPassword);
 userRouter.post("/login", login);
 userRouter.get("/user/:id", getUser);
 userRouter.put("/updateBio/:id", changeBio);
-userRouter.get("/user", authentication, getUsers);
+userRouter.get("/users", authentication, getUsers);
 //---------------------------------------------------//
 
 userRouter.put("/followUser", followUser); /// need to test it in front end ... 
