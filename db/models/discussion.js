@@ -1,27 +1,30 @@
 const mongoose = require("mongoose");
 
-const ratting = new mongoose.Schema(
+const reply = new mongoose.Schema(
   { 
-    ratting: {
-      type: Number,
-      required : true, 
-      default: 0,
+    reply: {
+      type: String,
+      required: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: true,
     },
-    post: {
+    question: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "post",
+      ref: "question",
       required: true,
     },
+    deleted: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
-  
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("ratting", ratting);
+module.exports = mongoose.model("reply", reply);

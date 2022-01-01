@@ -13,13 +13,12 @@ const post = new mongoose.Schema(
     },
     pic: {
       type: String,
-      // require: true,
+     require: true, 
       default:
-        "https://thumbs.dreamstime.com/b/female-user-avatar-profile-picture-icon-isolated-vector-illustration-flat-design-people-character-white-background-woman-146472409.jpg",
+        "https://images.prewarcar.com/pics/r2w-1200x800-products/3712/Bavaria_City_Races_2009_500.jpg",
     },
     file: {
-      type: String,
-      required: true,
+      type: String, 
     },
     video: {
       type: String,
