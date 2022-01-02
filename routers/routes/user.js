@@ -33,7 +33,6 @@ userRouter.put("/unFollowUser", unFollowUser); /// need to test it in front end 
 
 //---------------------------------------------------//
 
-
 // Admin ...
 userRouter.get("/users", authentication, authorization, getUsers);
 userRouter.delete("/user/:id", authentication, authorization, deleteUser);

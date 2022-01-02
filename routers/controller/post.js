@@ -27,9 +27,12 @@ const createPost = (req, res) => {
 
 const getOnePost = (req, res) => {
   const { id } = req.params; /// POST ID ...
+  console.log(".............................");
   postModel
-    .findOne({ _id: id, deleted: false })
+    .findOne({ _id: id })
+     .populate("user")
     .then(async (result) => {
+      console.log(result);
       if (result) {
         const commnet = await commentModel.find({ post: id, deleted: false });
         const like = await likeModel.find({ post: id, deleted: false });
@@ -45,7 +48,8 @@ const getOnePost = (req, res) => {
         res.status(404).json({ message: `post is deleted ${id}` });
       }
     })
-    .catch((err) => {
+    .catch((err) => { 
+      console.log("result /..................................");
       res.status(400).json(err);
     });
 };
@@ -69,11 +73,11 @@ const delPost = (req, res) => {
   const { id } = req.params; /// Post id
 
   postModel
-    .findOneAndUpdate(
-      { _id: id, deleted: false, user: req.token.id },
-      { deleted: true },
-      { new: true }
-    )
+      .findOneAndUpdate(
+        { _id: id, user: req.token.id, deleted: false },
+        { deleted: true },
+        { new: true }
+      )
     .then((result) => {
       if (result) {
         res.status(200).json(result);
@@ -81,7 +85,7 @@ const delPost = (req, res) => {
         res.status(404).json({ message: `there is no task with ID: ${id}` });
       }
     })
-    .catch((err) => {
+    .catch((err) => { 
       res.status(400).json(err);
     });
 };
