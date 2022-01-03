@@ -23,6 +23,7 @@ const getOneQuestion = (req, res) => {
   const { id } = req.params; /// Question ID ...
   questionModel
     .findOne({ _id: id, deleted: false })
+    .populate("user")
     .then(async (result) => {
     res.status(200).json(result);
     })
@@ -34,6 +35,7 @@ const getOneQuestion = (req, res) => {
 const getAllQuestions = (req, res) => {
   questionModel
     .find({})
+    .populate("user")
     .then((result) => {
       if (result.length > 0) {
         res.status(200).json(result);

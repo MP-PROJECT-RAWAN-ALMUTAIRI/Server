@@ -27,6 +27,7 @@ const getOneDis = (req, res) => {
     const { id } = req.params; /// question ID ...
     disscationModel 
       .find({ question: id  ,deleted: false })
+      .populate("user")
       .then((result) => {
         if (result) {
           res.status(200).json(result);
