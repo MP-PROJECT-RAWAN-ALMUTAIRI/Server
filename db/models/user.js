@@ -19,7 +19,7 @@ const user = new mongoose.Schema(
     passwordCode: {
       type: String,
     },
-    activeCode: {
+    codee: {
       type: String,
     },
     active: {
@@ -29,6 +29,7 @@ const user = new mongoose.Schema(
     role: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Role",
+      
     },
     Bio: {
       type: String,
@@ -40,31 +41,11 @@ const user = new mongoose.Schema(
       default:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
     },
-    followers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
-      },
-    ],
-    following: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
-      },
-    ],
     deleted: {
       type: Boolean,
       required: true,
       default: false,
     },
-    // <------------------------------------------------------------------->//
-    // <------------ if the profile is public setit to true else false ------------> //
-    //   isPublic: {
-    //   type: Boolean,
-    //   required: true,
-    //   default: false,
-    // },
-    // <------------------------------------------------------------------->//
   },
 
   {

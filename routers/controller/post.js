@@ -5,13 +5,12 @@ const rattingModel = require("../../db/models/ratting");
 const userModel = require("../../db/models/user"); 
 
 const createPost = (req, res) => {
-  const { description, pic, file, video } = req.body;
+      const { description, pic, title } = req.body;
 
   const newPost = new postModel({
     description,
     pic,
-    file,
-    video,
+    title,
     user: req.token.id,
   });
 
