@@ -17,7 +17,7 @@ const postRouter = express.Router();
 postRouter.post("/post", authentication, createPost);
 postRouter.post("/Likeposts/:id", authentication, newLike);
 postRouter.get("/post/:id", authentication, getOnePost);
-postRouter.get("/post", authentication, getAllPost);
+postRouter.get("/post", getAllPost);
 postRouter.put("/post/:id", authentication, updatePost);
 postRouter.delete("/post/:id", authentication, delPost);
 

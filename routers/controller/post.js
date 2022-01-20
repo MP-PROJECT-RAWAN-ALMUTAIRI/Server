@@ -5,13 +5,13 @@ const rattingModel = require("../../db/models/ratting");
 const userModel = require("../../db/models/user"); 
 
 const createPost = (req, res) => {
-  const { description, pic, file, video } = req.body;
+      const { description, pic, title ,GitHubLink} = req.body;
 
   const newPost = new postModel({
     description,
     pic,
-    file,
-    video,
+    title,
+    GitHubLink,
     user: req.token.id,
   });
 
@@ -27,9 +27,12 @@ const createPost = (req, res) => {
 
 const getOnePost = (req, res) => {
   const { id } = req.params; /// POST ID ...
+  console.log(".............................");
   postModel
-    .findOne({ _id: id, deleted: false })
+    .findOne({ _id: id })
+     .populate("user")
     .then(async (result) => {
+      console.log(result);
       if (result) {
         const commnet = await commentModel.find({ post: id, deleted: false });
         const like = await likeModel.find({ post: id, deleted: false });
@@ -45,20 +48,17 @@ const getOnePost = (req, res) => {
         res.status(404).json({ message: `post is deleted ${id}` });
       }
     })
-    .catch((err) => {
+    .catch((err) => { 
+      console.log("result /..................................");
       res.status(400).json(err);
     });
 };
 
 const getAllPost = (req, res) => {
   postModel
-    .find({})
+    .find({deleted: false})
     .then((result) => {
-      if (result.length > 0) {
-        res.status(200).json(result);
-      } else {
-        res.status(404).json({ message: "there no post ..." });
-      }
+      res.status(200).json(result);
     })
     .catch((err) => {
       res.status(404).json(err);
@@ -67,32 +67,33 @@ const getAllPost = (req, res) => {
 
 const delPost = (req, res) => {
   const { id } = req.params; /// Post id
-
+  console.log(id , "id ...........");
   postModel
-    .findOneAndUpdate(
-      { _id: id, deleted: false, user: req.token.id },
-      { deleted: true },
-      { new: true }
-    )
-    .then((result) => {
-      if (result) {
-        res.status(200).json(result);
-      } else {
-        res.status(404).json({ message: `there is no task with ID: ${id}` });
-      }
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
+  .findByIdAndUpdate(id, { user: req.token.id , deleted: true })
+  .then((result) => {
+    if (result) {
+      console.log("id ......post post.....");
+      res
+        .status(200)
+        .json({ message: " the post hsa been deleted successfully .." });
+    } else {
+      console.log("id ...else........");
+      res.status(404).json({ message: `there is no post with ID: ${id}` });
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(400).json(err);
+  });
 };
 
 const updatePost = (req, res) => {
   const { id } = req.params;
-  const { description, pic, file, video } = req.body;
+  const { description, pic ,GitHubLink} = req.body;
   postModel
     .findOneAndUpdate(
       { _id: id, user: req.token.id, deleted: false }, /// filtres
-      { description: description, pic: pic, file: file, video: video },
+      { description: description, pic: pic , GitHubLink: GitHubLink },
       { new: true }
     )
     .then((result) => {
@@ -144,28 +145,29 @@ const newLike = async (req, res) => {
 //// BY ADMIN ....
 const deletePostsByAdmin = (req, res) => {
   const { id } = req.params;
-
-  postModel
-    .findOneAndUpdate(
-      { _id: id, deleted: false },
-      { deleted: true },
-      { new: true }
-    )
+   console.log(id);
+  postModel 
+    .findByIdAndUpdate(id, { deleted: true })
     .then((result) => {
       if (result) {
-        res.status(200).json(result);
+        console.log("id .....rawan......");
+        res
+          .status(200)
+          .json({ message: " the Post hsa been deleted successfully .." });
       } else {
-        res.status(404).json({ message: `there is no post with ID: ${id}` });
+        console.log("id ...9999999999........");
+        res.status(404).json({ message: `there is no Post with ID: ${id}` });
       }
     })
     .catch((err) => {
+      console.log(err);
       res.status(400).json(err);
     });
 };
 //// BY ADMIN ....
 const getAllPostByAdmin = (req, res) => {
   postModel
-    .find({})
+    .find({deleted: false})
     .then(async (result) => {
       if (result) {
         const commnet = await commentModel.find({});
@@ -197,3 +199,21 @@ module.exports = {
   deletePostsByAdmin,
   getAllPostByAdmin,
 };
+
+
+//       .findOneAndUpdate(
+//         { _id: id, user: req.token.id, deleted: false },
+//         { deleted: true },
+//         { new: true }
+//       )
+//     .then((result) => {
+//       if (result) {
+//         res.status(200).json(result);
+//       } else {
+//         res.status(404).json({ message: `there is no task with ID: ${id}` });
+//       }
+//     })
+//     .catch((err) => { 
+//       res.status(400).json(err);
+//     });
+// };

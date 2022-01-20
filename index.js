@@ -28,7 +28,6 @@ app.use(disRouter);
 const questionRouter = require("./routers/routes/question");
 app.use(questionRouter);
 
-
 const PORT = process.env.PORT;
 console.log(PORT);
 app.listen(PORT, () => {
