@@ -14,7 +14,7 @@ const PASS = process.env.PASS; //to send confirmation message
 
 //DONE
 const signup = async (req, res) => {
-  const { email, userName, password ,role} = req.body;
+  const { email, userName, password ,role ,Bio , GitHubLink} = req.body;
 
   const savedEmail = email.toLowerCase();
   const savedPassword = await bcrypt.hash(password, SALT);
@@ -41,6 +41,8 @@ const signup = async (req, res) => {
       email: savedEmail,
       password: savedPassword,
       role,
+      Bio , 
+      GitHubLink,
       codee,
     });
 
@@ -129,7 +131,7 @@ const login = (req, res) => {
               const payload = {
                 id: result._id,
                 email: result.email,
-               // userName: result.userName,
+                userName: result.userName,
                 role: result.role.role,
                 // deleted: result.deleted
               };
@@ -164,12 +166,6 @@ const login = (req, res) => {
 const getUsers = (req, res) => {
   usersModel
     .find({ deleted: false })
-    //---------------------------------------------------//
-    // يجيب حساب المستخدم مع البروفايل والصور و محتواها
-    //  .populate("post")
-    //  .populate("followers")
-    //  .populate("following")
-    //---------------------------------------------------//
     .then((result) => {
       res.status(200).json(result);
     })
@@ -193,7 +189,6 @@ const getUser = (req, res) => {
         if (post.length > 0) {
           res.status(200).json({ result, post });
         } else {
-          // console.log("commnet commnet commnet commnet......");
           res.status(200).json({ result, post });
         }
       } else {
@@ -210,8 +205,42 @@ const changeBio = (req, res) => {
   const { avatar } = req.body;
   usersModel
     .findOneAndUpdate(
-      { _id: id }, /// filtres
+      { _id: id , user: req.token.id, deleted: false}, /// filtres
       { avatar: avatar },
+      { new: true }
+    )
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
+ const updateGitHubLink = (req,res) => {
+  const { id } = req.params; // user id
+  const { GitHubLink } = req.body;
+  usersModel
+    .findOneAndUpdate(
+      { _id: id , user: req.token.id, deleted: false }, /// filtres
+      { GitHubLink: GitHubLink },
+      { new: true }
+    )
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+ 
+const updateBio = (req,res) => {
+  const { id } = req.params; // user id
+  const { Bio } = req.body;
+  usersModel
+    .findOneAndUpdate(
+      { _id: id , user: req.token.id, deleted: false}, /// filtres
+      { Bio: Bio },
       { new: true }
     )
     .then((result) => {
@@ -224,7 +253,6 @@ const changeBio = (req, res) => {
 
 const deleteUser = (req, res) => {
   const { id } = req.params;
-  // console.log(id);
   usersModel
     .findByIdAndUpdate(id, { deleted: true })
     .then((result) => {
@@ -251,5 +279,7 @@ module.exports = {
   getUsers,
   getUser,
   changeBio,
+  updateBio,
+  updateGitHubLink,
   deleteUser,
 };

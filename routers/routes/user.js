@@ -6,6 +6,8 @@ const {
   getUsers,
   getUser,
   changeBio,
+  updateGitHubLink,
+  updateBio,
   deleteUser,
 } = require("./../controller/user");
 const authentication = require("./../Middleware/Authentication");
@@ -19,7 +21,9 @@ userRouter.put("/verify_account/:id", verifyAccount);
 userRouter.post("/login", login);
 userRouter.get("/user/:id", getUser);
 userRouter.put("/update/:id", changeBio);
-userRouter.get("/users", authentication, getUsers);
+userRouter.put("/updateBio/:id",authentication,updateBio); 
+userRouter.get("/users", getUsers);
+userRouter.put("/updateGitHubLink/:id", authentication,updateGitHubLink);
 //---------------------------------------------------//
 
 // Admin ...

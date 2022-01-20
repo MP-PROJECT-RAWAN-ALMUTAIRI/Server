@@ -1,6 +1,6 @@
 const commentsModel = require("../../db/models/comment"); 
-const postModel = require("../../db/models/post"); 
-const roleModel = require("./../../db/models/role");
+//const postModel = require("../../db/models/post"); 
+// const roleModel = require("./../../db/models/role");
 
 //Done
 const createComments = (req, res) => {
@@ -51,6 +51,7 @@ const createComments = (req, res) => {
 const updateComments = (req, res) => {
  
       const { id } = req.params; // comment id 
+      console.log(id,"rawan id post on comment");
       const { comment } = req.body;
   
       commentsModel
@@ -60,6 +61,7 @@ const updateComments = (req, res) => {
           { new: true }
         )
         .then((result) => {
+          console.log(comment,"rawan comment post on comment");
           if (result) {
             res.status(200).json(result);
           } else {
@@ -68,6 +70,7 @@ const updateComments = (req, res) => {
         })
         .catch((err) => {
           res.status(400).json(err);
+          console.log(err);
         });
   };
 // Done 
@@ -92,7 +95,6 @@ const deleteComments = (req, res) => {
           res.status(400).json(err);
         });
   };  
-
 //// Admin 
 const getAllCommentByAdmin = (req,res) => {
   commentsModel
@@ -110,25 +112,26 @@ const getAllCommentByAdmin = (req,res) => {
 };
 
 const deleteCommentByAdmin = (req,res) => {
-  const { id } = req.params; // id for comment 
-
+  const { id } = req.params;
+  // console.log(id);
   commentsModel
-    .findOneAndUpdate(
-      { _id: id, deleted: false },
-      { deleted: true },
-      { new: true }
-    )
+    .findByIdAndUpdate(id, { deleted: true })
     .then((result) => {
       if (result) {
-        res.status(200).json(result);
+        console.log("id ...........");
+        res
+          .status(200)
+          .json({ message: " the user hsa been deleted successfully .." });
       } else {
-        res.status(404).json({ message: `there is no post with ID: ${id}` });
+        console.log("id ...9999999999........");
+        res.status(404).json({ message: `there is no user with ID: ${id}` });
       }
     })
     .catch((err) => {
+      console.log(err);
       res.status(400).json(err);
     });
-}; 
+};
 
 module.exports = {
   createComments, 

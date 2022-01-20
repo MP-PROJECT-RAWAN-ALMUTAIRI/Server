@@ -36,6 +36,11 @@ const user = new mongoose.Schema(
       trim: true,
       default: "",
     },
+    GitHubLink:{
+      type: String,
+      trim: true,
+      default: "https://github.com/",
+    },
     avatar: {
       type: String,
       default:

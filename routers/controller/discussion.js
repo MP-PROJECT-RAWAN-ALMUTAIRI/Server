@@ -21,7 +21,6 @@ const createDiscussion = (req, res) => {
         res.status(400).json(err);
       });
   };
-
   // <-------------get dissction only without question--------------------->
 const getOneDis = (req, res) => {
     const { id } = req.params; /// question ID ...
@@ -42,7 +41,30 @@ const getOneDis = (req, res) => {
       });
 };
 
+const deleteRep = (req, res) => {
+
+  const { id } = req.params; 
+
+  disscationModel
+    .findOneAndUpdate(
+      { _id: id, user: req.token.id, deleted: false },
+      { deleted: true },
+      { new: true }
+    )
+    .then((result) => {
+      if (result) {
+        res.status(200).json(result);
+      } else {
+        res.status(404).json({ message: `there is no Replay with ID: ${id}` });
+      }
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};  
+
 module.exports = {
     createDiscussion,
     getOneDis, 
+    deleteRep,
 }

@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const post = new mongoose.Schema(
   {
+    GitHubLink:{
+      type: String,
+      trim: true,
+      default: "https://github.com/",
+    },
     description: {
       type: String,
       required: true,
