@@ -2,13 +2,22 @@ const mongoose = require("mongoose");
 
 const post = new mongoose.Schema(
   {
+    GitHubLink:{
+      type: String,
+      trim: true,
+      default: "https://github.com/",
+    },
     description: {
+      type: String,
+      required: true,
+    },
+    title: {
       type: String,
       required: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "User",
       required: true,
     },
     pic: {
