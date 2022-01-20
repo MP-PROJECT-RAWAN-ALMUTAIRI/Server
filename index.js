@@ -28,8 +28,6 @@ app.use(disRouter);
 const questionRouter = require("./routers/routes/question");
 app.use(questionRouter);
 
-const replyMoreRouter = require("./routers/routes/morReply");
-app.use(replyMoreRouter);
 
 const PORT = process.env.PORT;
 console.log(PORT);
