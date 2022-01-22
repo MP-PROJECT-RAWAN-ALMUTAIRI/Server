@@ -1,4 +1,9 @@
 const commentsModel = require("../../db/models/comment"); 
+<<<<<<< HEAD
+=======
+//const postModel = require("../../db/models/post"); 
+// const roleModel = require("./../../db/models/role");
+>>>>>>> 437f3d648fef61406b9be29cfd306ba1e9bb6062
 
 
 const createComments = (req, res) => {

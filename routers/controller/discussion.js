@@ -21,7 +21,11 @@ const createDiscussion = (req, res) => {
         res.status(400).json(err);
       });
   };
+<<<<<<< HEAD
  
+=======
+  // <-------------get dissction only without question--------------------->
+>>>>>>> 437f3d648fef61406b9be29cfd306ba1e9bb6062
 const getOneDis = (req, res) => {
     const { id } = req.params; /// question ID ...
     disscationModel 
