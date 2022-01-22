@@ -157,6 +157,8 @@ const deletePostsByAdmin = (req, res) => {
       } else {
         console.log("id ...9999999999........");
         res.status(404).json({ message: `there is no Post with ID: ${id}` });
+<<<<<<< HEAD
+=======
       }
     })
     .catch((err) => {
@@ -182,12 +184,15 @@ const getAllPostByAdmin = (req, res) => {
         }
       } else {
         res.status(404).json({ message: `posts is deleted` });
+>>>>>>> 437f3d648fef61406b9be29cfd306ba1e9bb6062
       }
     })
     .catch((err) => {
+      console.log(err);
       res.status(400).json(err);
     });
 };
+
 
 module.exports = {
   createPost,
@@ -197,6 +202,9 @@ module.exports = {
   updatePost,
   newLike,
   deletePostsByAdmin,
+<<<<<<< HEAD
+};
+=======
   getAllPostByAdmin,
 };
 
@@ -217,3 +225,4 @@ module.exports = {
 //       res.status(400).json(err);
 //     });
 // };
+>>>>>>> 437f3d648fef61406b9be29cfd306ba1e9bb6062

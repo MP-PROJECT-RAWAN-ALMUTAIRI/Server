@@ -9,14 +9,18 @@ dotenv.config();
 const SALT = Number(process.env.SALT);
 const SECRET = process.env.SECRET_KEY;
 
-const EMAIL = process.env.EMAIL; //to send confirmation message
-const PASS = process.env.PASS; //to send confirmation message
+const EMAIL = process.env.EMAIL;  
+const PASS = process.env.PASS;  
 
 //DONE
 const signup = async (req, res) => {
   const { email, userName, password ,role ,Bio , GitHubLink} = req.body;
 
   const savedEmail = email.toLowerCase();
+    // ============ | RETURN ERROR IF EMAIL IS INVALID |
+    if (!RegExp(/^\w+([\.-]?\w+)*@(\yahoo.com)+$/).test(savedEmail))
+    res.status(400).json({ message:"Invalid Email, Your Email Must Be Tuwaiq Email"});
+  //
   const savedPassword = await bcrypt.hash(password, SALT);
   try {
     let mailTransporter = nodemailer.createTransport({
@@ -34,7 +38,6 @@ const signup = async (req, res) => {
     for (let i = 0; i < 4; i++) {
       codee += num.charAt(Math.floor(Math.random() * num.length));
     }
-    // console.log(codee, "......................................");
     console.log(EMAIL, "-", PASS);
     const newUser = new usersModel({
       userName,
@@ -45,8 +48,6 @@ const signup = async (req, res) => {
       GitHubLink,
       codee,
     });
-
-    // console.log(newUser);
 
     newUser
       .save()
@@ -202,6 +203,7 @@ const getUser = (req, res) => {
 
 const changeBio = (req, res) => {
   const { id } = req.params; // user id
+  console.log(id, "user id ")
   const { avatar } = req.body;
   usersModel
     .findOneAndUpdate(

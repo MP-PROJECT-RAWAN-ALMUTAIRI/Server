@@ -3,7 +3,7 @@ const questionModel = require("../../db/models/question");
 
 
 const createDiscussion = (req, res) => {
-    const { id } = req.params; // id for question
+    const { id } = req.params; 
     const { reply } = req.body;
   
     const newdiss = new disscationModel({
@@ -21,7 +21,11 @@ const createDiscussion = (req, res) => {
         res.status(400).json(err);
       });
   };
+<<<<<<< HEAD
+ 
+=======
   // <-------------get dissction only without question--------------------->
+>>>>>>> 437f3d648fef61406b9be29cfd306ba1e9bb6062
 const getOneDis = (req, res) => {
     const { id } = req.params; /// question ID ...
     disscationModel 
@@ -33,7 +37,7 @@ const getOneDis = (req, res) => {
         } else {
           res
             .status(404)
-            .json({ message: `there is no comment with the ID: ${id}` });
+            .json({ message: `there is no question with the ID: ${id}` });
         }
       })
       .catch((err) => {

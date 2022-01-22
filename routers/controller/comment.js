@@ -1,13 +1,16 @@
 const commentsModel = require("../../db/models/comment"); 
+<<<<<<< HEAD
+=======
 //const postModel = require("../../db/models/post"); 
 // const roleModel = require("./../../db/models/role");
+>>>>>>> 437f3d648fef61406b9be29cfd306ba1e9bb6062
 
-//Done
+
 const createComments = (req, res) => {
    
-      const { id } = req.params; // post id 
+      const { id } = req.params; 
       const { comment } = req.body;
-     console.log(comment,id);
+
       const newComment = new commentsModel({
         comment,
         user: req.token.id,
@@ -26,7 +29,7 @@ const createComments = (req, res) => {
 //Done
   const getComments = (req, res) => {
     if (!req.token.deleted) {
-      const { id } = req.params; // post id      id user: req.token.id,
+      const { id } = req.params; 
    
       commentsModel
         .find({ post: id, deleted: false })
@@ -96,20 +99,6 @@ const deleteComments = (req, res) => {
         });
   };  
 //// Admin 
-const getAllCommentByAdmin = (req,res) => {
-  commentsModel
-  .find({}) 
-  .then((result) => {
-    if (result.length !== 0) {
-      res.status(200).json(result);
-    } else {
-      res.status(404).json({ message: "there is no users found !" });
-    }
-  })
-  .catch((err) => {
-    res.status(400).json(err);
-  });
-};
 
 const deleteCommentByAdmin = (req,res) => {
   const { id } = req.params;
@@ -138,6 +127,5 @@ module.exports = {
   getComments, 
   updateComments,
   deleteComments, 
-  getAllCommentByAdmin,
   deleteCommentByAdmin,  
 };
