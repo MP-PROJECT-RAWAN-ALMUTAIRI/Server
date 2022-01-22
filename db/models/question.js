@@ -16,9 +16,6 @@ const question = new mongoose.Schema(
       required: true,
       default: false,
     },
-    //
-    // push & pull 
-    //
   },
   {
     timestamps: true,

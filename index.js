@@ -19,8 +19,6 @@ app.use(postRouter);
 const commentsRouter = require("./routers/routes/comment");
 app.use(commentsRouter);
 
-const rateRouter = require("./routers/routes/ratting");
-app.use(rateRouter);
 
 const disRouter = require("./routers/routes/discussion");
 app.use(disRouter);
