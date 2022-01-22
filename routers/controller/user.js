@@ -38,7 +38,6 @@ const signup = async (req, res) => {
     for (let i = 0; i < 4; i++) {
       codee += num.charAt(Math.floor(Math.random() * num.length));
     }
-    console.log(EMAIL, "-", PASS);
     const newUser = new usersModel({
       userName,
       email: savedEmail,
@@ -58,22 +57,15 @@ const signup = async (req, res) => {
           subject: `hello ${result.userName}`,
           text: `This is a message to confirm your identity please write this code: ${codee} to confirm your email. `,
         };
-        console.log(mailDetails, "mailDetails");
         mailTransporter.sendMail(mailDetails, (err, data) => {
           if (err) {
-            console.log("error:", err.message);
-            console.log(data);
             res.status(400).json(err.message);
           } else {
-            console.log("Email sent successfully");
             res.json(result);
           }
         });
-
-        console.log(result);
       })
       .catch((err) => {
-        console.log(err, "email errorrr");
         res.send(err.message);
       });
   } catch (error) {
@@ -84,7 +76,6 @@ const signup = async (req, res) => {
 const verifyAccount = async (req, res) => {
   const { id } = req.params;
   const { code } = req.body;
-  console.log(code);
   usersModel.findOne({ _id: id }).then((ele) => {
     if (ele.codee == code) {
       usersModel
@@ -95,7 +86,6 @@ const verifyAccount = async (req, res) => {
         )
         .then((result) => {
           if (result) {
-            // console.log(result, "...................................");
             res.status(200).json(result);
           } else {
             res.status(400).json("Wrong Code");
@@ -111,7 +101,6 @@ const login = (req, res) => {
   const { email, password } = req.body;
 
   const lowerCaseEmail = email.toLowerCase();
-  //console.log(lowerCaseEmail, password);
   usersModel
     .findOne({ email: lowerCaseEmail })
     .populate("role") /// Find
@@ -120,24 +109,18 @@ const login = (req, res) => {
        
         if (result.deleted === false) {
           if (result.email == lowerCaseEmail) {
-            //console.log(result.email);
             const matchedPassword = await bcrypt.compare(
               password,
               result.password
             );
-            //console.log(typeof matchedPassword);
             if (matchedPassword == true) 
             {
-             // console.log(result,"//////////////////////////////////////////////////////////");
               const payload = {
                 id: result._id,
                 email: result.email,
                 userName: result.userName,
                 role: result.role.role,
-                // deleted: result.deleted
               };
-               console.log(payload);
-
               const options = {
                 expiresIn: "60h",
               };
@@ -201,16 +184,15 @@ const getUser = (req, res) => {
     });
 };
 
-const changeBio = (req, res) => {
+const upBio = (req, res) => {
   const { id } = req.params; // user id
-  console.log(id, "user id ")
   const { avatar } = req.body;
   usersModel
-    .findOneAndUpdate(
-      { _id: id , user: req.token.id, deleted: false}, /// filtres
+    .findByIdAndUpdate(
+      { _id: id , deleted: false}, /// filtres
       { avatar: avatar },
       { new: true }
-    )
+    ) 
     .then((result) => {
       res.status(200).json(result);
     })
@@ -259,12 +241,10 @@ const deleteUser = (req, res) => {
     .findByIdAndUpdate(id, { deleted: true })
     .then((result) => {
       if (result) {
-        console.log("id ...........");
         res
           .status(200)
           .json({ message: " the user hsa been deleted successfully .." });
       } else {
-        console.log("id ...9999999999........");
         res.status(404).json({ message: `there is no user with ID: ${id}` });
       }
     })
@@ -280,7 +260,7 @@ module.exports = {
   login,
   getUsers,
   getUser,
-  changeBio,
+  upBio,
   updateBio,
   updateGitHubLink,
   deleteUser,

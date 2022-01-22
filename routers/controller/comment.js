@@ -49,7 +49,6 @@ const createComments = (req, res) => {
 const updateComments = (req, res) => {
  
       const { id } = req.params; // comment id 
-      console.log(id,"rawan id post on comment");
       const { comment } = req.body;
   
       commentsModel
@@ -59,7 +58,6 @@ const updateComments = (req, res) => {
           { new: true }
         )
         .then((result) => {
-          console.log(comment,"rawan comment post on comment");
           if (result) {
             res.status(200).json(result);
           } else {
@@ -97,17 +95,14 @@ const deleteComments = (req, res) => {
 
 const deleteCommentByAdmin = (req,res) => {
   const { id } = req.params;
-  // console.log(id);
   commentsModel
     .findByIdAndUpdate(id, { deleted: true })
     .then((result) => {
       if (result) {
-        console.log("id ...........");
         res
           .status(200)
           .json({ message: " the user hsa been deleted successfully .." });
       } else {
-        console.log("id ...9999999999........");
         res.status(404).json({ message: `there is no user with ID: ${id}` });
       }
     })

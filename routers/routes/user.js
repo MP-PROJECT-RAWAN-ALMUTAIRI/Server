@@ -5,7 +5,7 @@ const {
   login,
   getUsers,
   getUser,
-  changeBio,
+  upBio,
   updateGitHubLink,
   updateBio,
   deleteUser,
@@ -20,7 +20,7 @@ userRouter.post("/signup", signup);
 userRouter.put("/verify_account/:id", verifyAccount);
 userRouter.post("/login", login);
 userRouter.get("/user/:id", getUser);
-userRouter.put("/update/:id", changeBio);
+userRouter.put("/updateAvatar/:id", upBio);
 userRouter.put("/updateBio/:id",authentication,updateBio); 
 userRouter.get("/users", getUsers);
 userRouter.put("/updateGitHubLink/:id", authentication,updateGitHubLink);

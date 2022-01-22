@@ -27,7 +27,6 @@ const questionRouter = require("./routers/routes/question");
 app.use(questionRouter);
 
 const PORT = process.env.PORT;
-console.log(PORT);
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
