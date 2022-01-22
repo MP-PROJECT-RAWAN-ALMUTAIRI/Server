@@ -3,7 +3,7 @@ const questionModel = require("../../db/models/question");
 
 
 const createDiscussion = (req, res) => {
-    const { id } = req.params; // id for question
+    const { id } = req.params; 
     const { reply } = req.body;
   
     const newdiss = new disscationModel({
@@ -21,8 +21,7 @@ const createDiscussion = (req, res) => {
         res.status(400).json(err);
       });
   };
-
-  // <-------------get dissction only without question--------------------->
+ 
 const getOneDis = (req, res) => {
     const { id } = req.params; /// question ID ...
     disscationModel 
@@ -34,7 +33,7 @@ const getOneDis = (req, res) => {
         } else {
           res
             .status(404)
-            .json({ message: `there is no comment with the ID: ${id}` });
+            .json({ message: `there is no question with the ID: ${id}` });
         }
       })
       .catch((err) => {
@@ -42,7 +41,30 @@ const getOneDis = (req, res) => {
       });
 };
 
+const deleteRep = (req, res) => {
+
+  const { id } = req.params; 
+
+  disscationModel
+    .findOneAndUpdate(
+      { _id: id, user: req.token.id, deleted: false },
+      { deleted: true },
+      { new: true }
+    )
+    .then((result) => {
+      if (result) {
+        res.status(200).json(result);
+      } else {
+        res.status(404).json({ message: `there is no Replay with ID: ${id}` });
+      }
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};  
+
 module.exports = {
     createDiscussion,
     getOneDis, 
+    deleteRep,
 }

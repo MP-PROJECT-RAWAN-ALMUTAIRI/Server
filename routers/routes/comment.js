@@ -12,6 +12,5 @@ commentsRouter.delete("/comment/:id", authentication, deleteComments);
 
 /// BY ADMIN ....
 commentsRouter.delete("/deleteCommentByAdmin/:id", authentication, authorization, deleteCommentByAdmin);
-commentsRouter.get("/getCommentByAdmin", authentication, authorization, getAllCommentByAdmin);
 
 module.exports = commentsRouter; 

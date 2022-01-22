@@ -9,14 +9,18 @@ dotenv.config();
 const SALT = Number(process.env.SALT);
 const SECRET = process.env.SECRET_KEY;
 
-const EMAIL = process.env.EMAIL; //to send confirmation message
-const PASS = process.env.PASS; //to send confirmation message
+const EMAIL = process.env.EMAIL;  
+const PASS = process.env.PASS;  
 
 //DONE
 const signup = async (req, res) => {
-  const { email, userName, password ,role} = req.body;
+  const { email, userName, password ,role ,Bio , GitHubLink} = req.body;
 
   const savedEmail = email.toLowerCase();
+    // ============ | RETURN ERROR IF EMAIL IS INVALID |
+    if (!RegExp(/^\w+([\.-]?\w+)*@(\yahoo.com)+$/).test(savedEmail))
+    res.status(400).json({ message:"Invalid Email, Your Email Must Be Tuwaiq Email"});
+  //
   const savedPassword = await bcrypt.hash(password, SALT);
   try {
     let mailTransporter = nodemailer.createTransport({
@@ -34,17 +38,16 @@ const signup = async (req, res) => {
     for (let i = 0; i < 4; i++) {
       codee += num.charAt(Math.floor(Math.random() * num.length));
     }
-    // console.log(codee, "......................................");
     console.log(EMAIL, "-", PASS);
     const newUser = new usersModel({
       userName,
       email: savedEmail,
       password: savedPassword,
       role,
+      Bio , 
+      GitHubLink,
       codee,
     });
-
-    // console.log(newUser);
 
     newUser
       .save()
@@ -129,7 +132,7 @@ const login = (req, res) => {
               const payload = {
                 id: result._id,
                 email: result.email,
-               // userName: result.userName,
+                userName: result.userName,
                 role: result.role.role,
                 // deleted: result.deleted
               };
@@ -164,12 +167,6 @@ const login = (req, res) => {
 const getUsers = (req, res) => {
   usersModel
     .find({ deleted: false })
-    //---------------------------------------------------//
-    // يجيب حساب المستخدم مع البروفايل والصور و محتواها
-    //  .populate("post")
-    //  .populate("followers")
-    //  .populate("following")
-    //---------------------------------------------------//
     .then((result) => {
       res.status(200).json(result);
     })
@@ -193,7 +190,6 @@ const getUser = (req, res) => {
         if (post.length > 0) {
           res.status(200).json({ result, post });
         } else {
-          // console.log("commnet commnet commnet commnet......");
           res.status(200).json({ result, post });
         }
       } else {
@@ -207,11 +203,46 @@ const getUser = (req, res) => {
 
 const changeBio = (req, res) => {
   const { id } = req.params; // user id
+  console.log(id, "user id ")
   const { avatar } = req.body;
   usersModel
     .findOneAndUpdate(
-      { _id: id }, /// filtres
+      { _id: id , user: req.token.id, deleted: false}, /// filtres
       { avatar: avatar },
+      { new: true }
+    )
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
+ const updateGitHubLink = (req,res) => {
+  const { id } = req.params; // user id
+  const { GitHubLink } = req.body;
+  usersModel
+    .findOneAndUpdate(
+      { _id: id , user: req.token.id, deleted: false }, /// filtres
+      { GitHubLink: GitHubLink },
+      { new: true }
+    )
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+ 
+const updateBio = (req,res) => {
+  const { id } = req.params; // user id
+  const { Bio } = req.body;
+  usersModel
+    .findOneAndUpdate(
+      { _id: id , user: req.token.id, deleted: false}, /// filtres
+      { Bio: Bio },
       { new: true }
     )
     .then((result) => {
@@ -224,7 +255,6 @@ const changeBio = (req, res) => {
 
 const deleteUser = (req, res) => {
   const { id } = req.params;
-  // console.log(id);
   usersModel
     .findByIdAndUpdate(id, { deleted: true })
     .then((result) => {
@@ -251,5 +281,7 @@ module.exports = {
   getUsers,
   getUser,
   changeBio,
+  updateBio,
+  updateGitHubLink,
   deleteUser,
 };
