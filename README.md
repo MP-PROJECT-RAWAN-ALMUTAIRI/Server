@@ -19,7 +19,10 @@
 | DELETE      | `/delComment`      | {id}                                      | 200             | 400           | delete Comment   | 
 | GET         | `/getComment`      |                                           | 200             | 400           | Get all comments   | 
 | POST        | `/like`            | {post, user}                              | 201             | 400           | Add like   | 
-| Post        | `/follow`          | {from, to}                                | 200             | 400           | follow user  | 
+| GET         | `/question`        |                                           | 200             | 400           | Get all question                 |
+| POST        | `/question`        | {question}                                | 201             | 400           | service provider create question|
+| PUT         | `/updquestion`     | {question}                                | 200             | 400           | service provider edit question                   |
+| DELETE      | `/delquestiont`    | {empty}                                   | 200             | 400           | service provider delete question               |
  
 
 ## UML Diagram:
@@ -73,13 +76,6 @@
 | Date       | new Date        | required         | n/a           |
 | user       | Schema <user>   | required         | n/a           |
   
-  
-- ratting model 
-  
-| key        | type            | options          | default value |
-| ---------- | --------------- | ---------------- | ------------- |
-| Post       | Schema <post>   | required         | n/a           |
-| user       | Schema <user>   | required         | n/a           | 
   
 - Like model 
   
